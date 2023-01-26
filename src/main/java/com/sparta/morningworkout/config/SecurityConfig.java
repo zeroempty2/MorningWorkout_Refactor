@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -42,7 +43,6 @@ public class SecurityConfig {
                 .requestMatchers(PathRequest.toH2Console())
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                 .requestMatchers("/users/sign")
-                .requestMatchers("/users/login")
                 .requestMatchers("/docs/**")
                 .requestMatchers("/users/logout");
 
@@ -68,6 +68,7 @@ public class SecurityConfig {
                 .requestMatchers("/chatroom/**").permitAll()
                 .requestMatchers("/customers/**").hasAnyRole("CUSTOMER")
                 .requestMatchers("/profile/**").permitAll()
+                .requestMatchers("/users/login").permitAll()
                 .requestMatchers("/sellers/**").hasAnyRole("SELLER")
                 .requestMatchers("/users/authorization").permitAll()
                 .anyRequest().authenticated()

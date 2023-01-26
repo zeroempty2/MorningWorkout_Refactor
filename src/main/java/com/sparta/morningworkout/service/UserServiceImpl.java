@@ -14,6 +14,7 @@ import com.sparta.morningworkout.repository.UserRepository;
 import com.sparta.morningworkout.service.serviceInterface.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
     private final JwtUtil jwtUtil;
     private final ProfileRepository profileRepository;
     private static final String ADMIN_TOKEN = "asdasd";
-    private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
@@ -68,8 +69,8 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다"));
         if (!passwordEncoder.matches(loginUserRequestDto.getPassword(),user.getPassword()))
         { throw new IllegalArgumentException("비밀번호 불일치"); }
-        String token = jwtUtil.createToken(user.getUsername(), user.getRole());
-        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
+        addTokenToHeader(response,user);
+
         return "로그인 성공";
     }
 
@@ -82,6 +83,9 @@ public class UserServiceImpl implements UserService {
                         sellerRegistRequestDto.getInfoContent(),sellerRegistRequestDto.getCategory());
                 sellerRegistRepository.save(sellerRegist);
         return "판매자 요청 성공";
+    }
+    private void addTokenToHeader(HttpServletResponse response, User user) {
+        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUsername(), user.getRole()));
     }
 
     //유저 이름으로 상품을 검색하기 위해 유저 서비스딴에 유저의 이름으로 유저의 아이디를 뱉어내는 함수 추가.
