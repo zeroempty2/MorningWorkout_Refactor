@@ -122,19 +122,19 @@
 //        Assertions.assertThrows(IllegalArgumentException.class, () -> productService.deleteProduct(productId, user));
 //    }
 //
-////    @Test
-////    void showProductList() {
-////        PageDto pageDto = mock(PageDto.class);
-////        Pageable pageable = mock(Pageable.class);
-////        pageDto = PageDto.builder().page(1).size(1).build();
-//////        given(productService.makePage(pageDto)).willReturn(pageable);
-////        given(productRepository.findAll(pageable)).willReturn(any());
-////        Page<ProductResponseDto> productResponseDtos = productService.showProductList(pageDto);
-////        verify(productRepository, only()).findAll(pageable);
-////
-////    }
-////
-////    @Test
-////    void showProductBySeller() {
-////    }
+//    @Test
+//    void showProductList() {
+//        PageDto pageDto = mock(PageDto.class);
+//        Pageable pageable = mock(Pageable.class);
+//        pageDto = PageDto.builder().page(1).size(1).build();
+////        given(productService.makePage(pageDto)).willReturn(pageable);
+//        given(productRepository.findAll(pageable)).willReturn(any());
+//        Page<ProductResponseDto> productResponseDtos = productService.showProductList(pageDto);
+//        verify(productRepository, only()).findAll(pageable);
+//
+//    }
+//
+//    @Test
+//    void showProductBySeller() {
+//    }
 //}
