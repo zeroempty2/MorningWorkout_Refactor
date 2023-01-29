@@ -71,6 +71,8 @@ public class SecurityConfig {
                 .requestMatchers("/users/login").permitAll()
                 .requestMatchers("/sellers/**").hasAnyRole("SELLER")
                 .requestMatchers("/users/authorization").permitAll()
+                .requestMatchers("/ws/chat/**").permitAll()
+                .requestMatchers("/chat/**").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil, userDetailsService), UsernamePasswordAuthenticationFilter.class);
 

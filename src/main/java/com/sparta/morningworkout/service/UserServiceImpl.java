@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     private final JwtUtil jwtUtil;
     private final ProfileRepository profileRepository;
     private static final String ADMIN_TOKEN = "asdasd";
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
