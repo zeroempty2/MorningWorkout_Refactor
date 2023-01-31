@@ -1,5 +1,6 @@
 package com.sparta.morningworkout.controller;
 
+import com.sparta.morningworkout.dto.ResponseRefreshToken;
 import com.sparta.morningworkout.dto.RestApiResponse;
 import com.sparta.morningworkout.dto.users.LoginUserRequestDto;
 import com.sparta.morningworkout.dto.users.SellerRegistRequestDto;
@@ -10,8 +11,11 @@ import com.sparta.morningworkout.security.UserDetailsImpl;
 import com.sparta.morningworkout.service.UserServiceImpl;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import java.nio.charset.StandardCharsets;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,15 +36,16 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginUserRequestDto loginUserRequestDto, HttpServletResponse response) {
-        String msg = userServiceimpl.login(loginUserRequestDto, response);
-        RestApiResponse restApiResponse = new RestApiResponse(HttpStatus.OK, msg);
-
-        return ResponseEntity.status(HttpStatus.OK).body(restApiResponse);
+        ResponseRefreshToken refreshToken = userServiceimpl.login(loginUserRequestDto, response);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
+        return ResponseEntity.ok().headers(headers).body(refreshToken);
     }
 
     @Transactional
     @PostMapping("/logout")
-    public ResponseEntity logout(HttpServletResponse response) {
+    public ResponseEntity logout(HttpServletResponse response, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        userServiceimpl.logout(userDetails.getUserId());
         response.setHeader(JwtUtil.AUTHORIZATION_HEADER, null);
         String msg = "로그아웃 성공";
         RestApiResponse restApiResponse = new RestApiResponse(HttpStatus.OK, msg);

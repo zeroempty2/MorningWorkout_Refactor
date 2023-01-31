@@ -2,11 +2,13 @@ package com.sparta.morningworkout.service;
 
 
 
+import com.sparta.morningworkout.dto.ResponseRefreshToken;
 import com.sparta.morningworkout.dto.users.LoginUserRequestDto;
 import com.sparta.morningworkout.dto.users.SellerRegistRequestDto;
 import com.sparta.morningworkout.dto.users.SignupDto;
 import com.sparta.morningworkout.entity.*;
 import com.sparta.morningworkout.jwtUtil.JwtUtil;
+import com.sparta.morningworkout.redis.refreshToken.sevice.RefreshTokenService;
 import com.sparta.morningworkout.repository.PointRepository;
 import com.sparta.morningworkout.repository.ProfileRepository;
 import com.sparta.morningworkout.repository.SellerRegistRepository;
@@ -14,7 +16,6 @@ import com.sparta.morningworkout.repository.UserRepository;
 import com.sparta.morningworkout.service.serviceInterface.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,7 @@ public class UserServiceImpl implements UserService {
     private final ProfileRepository profileRepository;
     private static final String ADMIN_TOKEN = "asdasd";
     private final PasswordEncoder passwordEncoder;
+    private final RefreshTokenService refreshTokenService;
 
     @Override
     @Transactional
@@ -64,18 +66,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String login(LoginUserRequestDto loginUserRequestDto, HttpServletResponse response) {
+    public ResponseRefreshToken login(LoginUserRequestDto loginUserRequestDto, HttpServletResponse response) {
         User user = userRepository.findByUsername(loginUserRequestDto.getUsername())
                 .orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다"));
         if (!passwordEncoder.matches(loginUserRequestDto.getPassword(),user.getPassword()))
         { throw new IllegalArgumentException("비밀번호 불일치"); }
         addTokenToHeader(response,user);
+        String refreshToken = refreshTokenService.addRefreshToken(user.getId());
 
-        return "로그인 성공";
+        return ResponseRefreshToken.builder().statusCode(200).refreshToken(refreshToken).msg("로그인 성공").build();
     }
 
     @Override
-    public void logout(User user) {}
+    public void logout(long userId) {
+        refreshTokenService.RefreshTokenLogout(userId);
+    }
 
     @Override
     public String sellerRegist(SellerRegistRequestDto sellerRegistRequestDto, User user) {

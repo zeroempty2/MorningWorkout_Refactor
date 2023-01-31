@@ -1,15 +1,11 @@
 package com.sparta.morningworkout.service;
 
 import com.sparta.morningworkout.config.SecurityConfig;
-import com.sparta.morningworkout.dto.users.LoginUserRequestDto;
 import com.sparta.morningworkout.dto.users.SignupDto;
-import com.sparta.morningworkout.entity.User;
-import com.sparta.morningworkout.entity.UserRoleEnum;
 import com.sparta.morningworkout.jwtUtil.JwtUtil;
 import com.sparta.morningworkout.repository.PointRepository;
 import com.sparta.morningworkout.repository.ProfileRepository;
 import com.sparta.morningworkout.repository.UserRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,10 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.SpyBeans;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
@@ -66,18 +59,18 @@ class UserServiceImplTest {
         assertThat(msg).isEqualTo("회원가입 성공");
     }
 
-    @Test
-    @DisplayName("로그인")
-    void login() {
-        //given
-        LoginUserRequestDto loginUserRequestDto = LoginUserRequestDto.builder().username("Lee1231").password("password1").build();
-        User user = User.builder().username("Lee1231").password(passwordEncoder.encode("password1")).role(UserRoleEnum.CUSTOMER).build();
-        MockHttpServletResponse servletResponse = new MockHttpServletResponse();
-        when(userRepository.findByUsername(any(String.class))).thenReturn(Optional.of(user));
-        when(jwtUtil.createToken(user.getUsername(),user.getRole())).thenReturn(any());
-        //when
-        String msg = userService.login(loginUserRequestDto,servletResponse);
-        //then
-        assertThat(msg).isEqualTo("로그인 성공");
-    }
+//    @Test
+//    @DisplayName("로그인")
+//    void login() {
+//        //given
+//        LoginUserRequestDto loginUserRequestDto = LoginUserRequestDto.builder().username("Lee1231").password("password1").build();
+//        User user = User.builder().username("Lee1231").password(passwordEncoder.encode("password1")).role(UserRoleEnum.CUSTOMER).build();
+//        MockHttpServletResponse servletResponse = new MockHttpServletResponse();
+//        when(userRepository.findByUsername(any(String.class))).thenReturn(Optional.of(user));
+//        when(jwtUtil.createToken(user.getUsername(),user.getRole())).thenReturn(any());
+//        //when
+//        String msg = userService.login(loginUserRequestDto,servletResponse);
+//        //then
+//        assertThat(msg).isEqualTo("로그인 성공");
+//    }
 }

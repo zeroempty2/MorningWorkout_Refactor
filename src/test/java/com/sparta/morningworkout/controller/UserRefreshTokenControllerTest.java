@@ -3,9 +3,7 @@ package com.sparta.morningworkout.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.morningworkout.dto.users.LoginUserRequestDto;
-import com.sparta.morningworkout.dto.users.SellerRegistRequestDto;
 import com.sparta.morningworkout.dto.users.SignupDto;
-import com.sparta.morningworkout.entity.CategoryEnum;
 import com.sparta.morningworkout.entity.User;
 import com.sparta.morningworkout.security.UserDetailsImpl;
 import com.sparta.morningworkout.service.UserServiceImpl;
@@ -20,11 +18,9 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
 import static com.sparta.morningworkout.controller.ApiDocumentUtils.getDocumentRequest;
@@ -41,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = UserController.class)
 @MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureRestDocs
-class UserControllerTest {
+class UserRefreshTokenControllerTest {
 
     @Autowired
     MockMvc mockMvc;
