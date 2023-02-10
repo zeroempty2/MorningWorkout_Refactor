@@ -11,6 +11,7 @@
 //import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 //import org.springframework.boot.test.mock.mockito.MockBean;
 //import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+//import org.springframework.http.MediaType;
 //import org.springframework.restdocs.RestDocumentationExtension;
 //import org.springframework.security.test.context.support.WithMockUser;
 //import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -80,16 +81,18 @@
 //                .with(csrf()))
 //                .andExpect(status().isOk());
 //    }
-//    @Test
-//    @DisplayName("판매자 신청 리스트 불러오기")
-//    void showSellerRegistList() throws Exception {
-////        List<SellerRegistResponseDto> sellerRegistResponseDto = new ArrayList<>();
-////        when(adminService.showSellerRegistList()).thenReturn(sellerRegistResponseDto);
-//
-//        mockMvc.perform(get("/admin/authorizations")
-//                        .with(csrf()))
-//                        .andExpect(status().isOk());
-//    }
+////    @Test
+////    @DisplayName("판매자 신청 리스트 불러오기")
+////    void showSellerRegistList() throws Exception {
+//////        List<SellerRegistResponseDto> sellerRegistResponseDto = new ArrayList<>();
+//////        when(adminService.showSellerRegistList()).thenReturn(sellerRegistResponseDto);
+////
+////        mockMvc.perform(get("/admin/authorizations")
+////                .contentType(MediaType.APPLICATION_JSON)
+////                .content(new Gson().toJson(request))
+////                        .with(csrf()))
+////                        .andExpect(status().isOk());
+////    }
 //    @Test
 //    @DisplayName("판매자 신청 수락")
 //    void acceptSellerRegist() throws Exception {
