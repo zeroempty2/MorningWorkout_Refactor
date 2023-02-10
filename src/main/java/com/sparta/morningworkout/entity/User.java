@@ -22,6 +22,7 @@ public class User extends TimeStamped{
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
 
+
     public void changeSeller(){
         this.role = UserRoleEnum.SELLER;
     }
